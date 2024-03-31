@@ -1,0 +1,8 @@
+{
+    "require": {
+        "eleirbag89/telegrambotphp": "^1.4",
+      "ext-curl": "*",
+      "ext-json": "*",
+      "ext-http": "*"
+    }
+}

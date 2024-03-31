@@ -1,40 +1,24 @@
 <?php
-$USAGE_MSG = `
-<b>Usage:</b>
-<pre>/run [language]
-[your code]
-...
-/stdin [input text] (optional)
-...</pre>
+    function GetLanguages()
+    {
+        $url = 'https://emkc.org/api/v2/piston/runtimes';
+        $response = file_get_contents($url);
+        if ($response === false) {
+            echo "Xatolik: HTTP so'rovni bajarmayapman";
+            return null;
+        }
+        $languagesMap = json_decode($response, true);
+        $languageSet = [];
+        foreach ($languagesMap as $obj) {
+            $languageSet[$obj['Language']] = true;
+        }
 
-type /langs for list of supported languages.
-`;
+        $languages = [];
 
-$INLINE_USAGE_MSG = `
-<b>Inline usage:</b>
-<pre>@iruncode_bot [language]
-[your code]
-...
-/stdin [input text] (optional)
-...</pre>
-`;
+        foreach (array_keys($languageSet) as $lang) {
+            $languages[] = $lang;
+        }
+        sort($languages);
 
-$INLINE_USAGE_MSG_PLAINTEXT = `Usage: @iruncode_bot [language] [code]`;
-
-$ERROR_STRING = `
-Some error occured, try again later.
-If the error persists, report it to the admins in the bot's bio.
-`;
-
-$STATS_MSG = `
-<b>Stats for the bot:</b>
-
-- Total messages sent: %d
-- Total unique chats messaged in: %d
-- Total unique users: %d
-`
-
-
-
-
-?>
+        return $languages;
+    }
